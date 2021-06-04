@@ -5,31 +5,52 @@ class UserCards extends React.Component{
     constructor(){
         super();
         this.state={
-            followers:{},
-            following:{}
+            userList:[],
         };
     }
     componentDidMount(){
+        if(Object.keys(this.props.userData).length!==0){
+            console.log('usercards mount')
+            this.fetchData();
+        }
+    }
+    componentDidUpdate(prevProps,prevState){
+        if(prevProps.userName!==this.props.userName){
+            console.log('usercards update')
+            this.fetchData();
+        }
+        if(prevProps.userData!==this.props.userData){
+            console.log('usercards update')
+            this.fetchData();
+        }
+    }
+    fetchData=()=>{
         const {userData} = this.props;
-        axios.get(userData.followers_url)
-        .then(r=>this.setState({followers:r.data}))
+        console.log('usercards fetching');
+        axios.get(userData['followers_url'])
+        .then(r=>{
+            console.log('userCards fetched')
+            this.setState({userList:r.data});
+        })
         .catch(e=>console.log({e}));
-        axios.get(userData.following_url)
-        .then(r=>this.setState({following:r.data}))
-        .catch(e=>console.log({e}));
+
     }
     render(){
-        // const {userName,userData} = this.props;
-        // const {followers,following} = this.state;
-        // const users = toShow==='followers'?followers:following;
-        // return(
-        //     <div>
-        //         {Object.keys(users).map((key,i)=>
-        //             <UserCard key={i} userName={users[key].login} changeUserOnClick={changeUserOnClick}/>
-        //             )}
-        //     </div>
-        // );
-        return<div></div>;
+        const {userList} = this.state;
+        if(userList.length!==0){
+            return(
+                <div>
+                    <div>{'Followers'}</div>
+                    {userList.map((user,i)=>
+                        <UserCard key={i} userName={user.login} setUserData={null}/>
+                        )}
+                </div>
+            );
+        }
+        else{
+            
+            return <div>Loading...</div>
+        }
     }
 };
 export default UserCards;

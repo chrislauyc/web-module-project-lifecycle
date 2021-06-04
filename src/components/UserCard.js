@@ -18,25 +18,37 @@ class UserCard extends React.Component{
             userData:{},
           };
     }
-    componentDidUpdate(){
-        const {userName,setUserData} = this.props;
-        if(userName){
-            axios.get(`https://api.github.com/users/${userName}`)
-            .then((r)=>{
-              this.setState({userData:r.data});
-              if(setUserData){
-                  setUserData(r.data);
-              }
-            })
-            .catch(e=>console.log({e}));
+    componentDidMount(){
+        const {userName} = this.props;
+        const {userData} = this.state;
+        if(userName && Object.keys(userData).length===0){
+            this.fetchData();
         }
-      }
+    }
+    componentDidUpdate(prevProps,prevState){
+        if(prevProps.userName!==this.props.userName){
+            this.fetchData();
+        }
+    }
+    fetchData=()=>{
+        const {userName,setUserData} = this.props;
+        axios.get(`https://api.github.com/users/${userName}`)
+        .then((r)=>{
+            this.setState({userData:r.data});
+            if(setUserData){
+                setUserData(r.data);
+            }
+        })
+        .catch(e=>console.log({e}));
+    }
     render(){
         const {avatar_url,name,location,login} = this.state.userData;
         return(
             <StyledCard>
                 <CardActionArea>
                     <StyledCardMedia 
+                        component={Link}
+                        to={`/${login}`}
                         image={`${avatar_url}`}
                         title={'User Avatar'}
                     />
@@ -46,8 +58,7 @@ class UserCard extends React.Component{
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button component={Link} to={`/${login}`} size='small' color='primary'>Following</Button>
-                    <Button component={Link} to={`/${login}`}  size='small' color='primary'>Followers</Button>
+                    <Button component={Link} to={`/${login}/followers`}  size='small' color='primary'>Followers</Button>
                 </CardActions>
             </StyledCard>
         );
