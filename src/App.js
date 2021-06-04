@@ -6,7 +6,7 @@ class App extends React.Component{
     return(
       <div>
         <header>
-          <h1>Welcome To Github Cards</h1>
+          <h1>Welcome To GitHub Cards</h1>
         </header>
         <main>
           <Switch>

@@ -12,14 +12,12 @@ class Page extends React.Component{
         };
     }
     componentDidMount(){
-        console.log('page did mount');
         const userName = this.props.match.params.userName;
         this.setState({userName});
     }
     componentDidUpdate(prevProps,prevState){
         const userName = this.props.match.params.userName;
         if(prevProps.match.params.userName!==userName){
-            console.log('page did update',prevProps.match.params.userName,userName);
             this.setState({userName:userName});
         }
     }

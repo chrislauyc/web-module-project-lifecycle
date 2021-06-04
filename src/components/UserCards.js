@@ -10,26 +10,21 @@ class UserCards extends React.Component{
     }
     componentDidMount(){
         if(Object.keys(this.props.userData).length!==0){
-            console.log('usercards mount')
             this.fetchData();
         }
     }
     componentDidUpdate(prevProps,prevState){
         if(prevProps.userName!==this.props.userName){
-            console.log('usercards update')
             this.fetchData();
         }
         if(prevProps.userData!==this.props.userData){
-            console.log('usercards update')
             this.fetchData();
         }
     }
     fetchData=()=>{
         const {userData} = this.props;
-        console.log('usercards fetching');
         axios.get(userData['followers_url'])
         .then(r=>{
-            console.log('userCards fetched')
             this.setState({userList:r.data});
         })
         .catch(e=>console.log({e}));
