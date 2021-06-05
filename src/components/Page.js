@@ -1,8 +1,29 @@
 import React from 'react';
 import {withRouter} from 'react-router';
-import {Route,Switch} from 'react-router-dom';
 import UserCard from './UserCard';
 import UserCards from './UserCards';
+import {
+    withStyles,createMuiTheme,Container,Grid,Typography
+} from '@material-ui/core';
+const theme = createMuiTheme();
+const styles = {
+    grid:{
+        padding: theme.spacing(2),
+        width:'100%'
+    },
+    mainCard:{
+        backgroundColor:theme.palette.background.paper,
+        paddingTop:theme.spacing(4),
+    },
+    followerCards:{
+        backgroundColor:theme.palette.background.paper,
+        flexGrow:'1',
+        minHeight:'100vh'
+    },
+    addBorder:{
+        border:'red solid 1px'
+    }
+};
 class Page extends React.Component{
     constructor(){
         super();
@@ -27,17 +48,24 @@ class Page extends React.Component{
     render(){
         const {userName,userData} = this.state;
         const {setUserData} = this;
-        const path = this.props.match.path;
+        const {classes} = this.props;
         return(
             <>
-                <UserCard userName={userName} setUserData={setUserData}/>
-                <Switch>
-                    <Route path={`${path}/followers`}>
-                        <UserCards userName={userName} userData={userData} />
-                    </Route>
-                </Switch>
+                <Grid className={classes.grid} container>
+                    <Grid item className={classes.mainCard} spacing={4}>
+                        <Container>
+                            <UserCard userName={userName} setUserData={setUserData}/>
+                        </Container>
+                    </Grid>
+                    <Grid item className={classes.followerCards}>
+                        <Typography component='h1' variant='h4' color='primary' align='center' >{'Followers'}</Typography>
+                        <Container>
+                            <UserCards userName={userName} userData={userData} />
+                        </Container>
+                    </Grid>
+                </Grid>
             </>
         );
     };
 }
-export default withRouter(Page);
+export default withStyles(styles)(withRouter(Page));

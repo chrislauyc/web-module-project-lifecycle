@@ -1,11 +1,21 @@
 import axios from 'axios';
 import React from 'react';
 import UserCard from './UserCard';
+import {
+    Grid,Container,Typography,withStyles,createMuiTheme
+} from '@material-ui/core';
+const theme = createMuiTheme();
+const styles = {
+    cardGrid: {
+        paddingTop: theme.spacing(8),
+        paddingBottom: theme.spacing(8),
+      },
+};
 class UserCards extends React.Component{
     constructor(){
         super();
         this.state={
-            userList:[],
+            userList:null,
         };
     }
     componentDidMount(){
@@ -32,15 +42,24 @@ class UserCards extends React.Component{
     }
     render(){
         const {userList} = this.state;
-        if(userList.length!==0){
-            return(
-                <div>
-                    <div>{'Followers'}</div>
-                    {userList.map((user,i)=>
-                        <UserCard key={i} userName={user.login} setUserData={null}/>
-                        )}
-                </div>
-            );
+        const {classes} = this.props;
+        if(userList){
+            if(userList.length!==0){
+                return(
+                    <Container className={classes.cardGrid} maxWidth='md'>
+                        <Grid container spacing={4}>
+                            {userList.map((user,i)=>
+                                <Grid key={i} item>
+                                    <UserCard userName={user.login} setUserData={null}/>
+                                </Grid>
+                                )}
+                        </Grid>
+                    </Container>
+                );
+            }
+            else{
+                return <Typography variant='body1'>No followers found</Typography>
+            }
         }
         else{
             
@@ -48,4 +67,4 @@ class UserCards extends React.Component{
         }
     }
 };
-export default UserCards;
+export default withStyles(styles)(UserCards);

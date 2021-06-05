@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {
@@ -9,8 +8,22 @@ import {
     CardContent,
     CardMedia,
     Button,
-    Typography
+    Typography,
+    withStyles,
+    createMuiTheme
 } from '@material-ui/core';
+const theme = createMuiTheme();
+const styles = {
+    card:{
+        height:'100%',
+        display:'flex',
+        flexDirection: 'column'
+    },
+    cardMedia:{
+        // padding is needed to display the image
+        paddingTop:'56.25%' //16:9
+    }
+};
 class UserCard extends React.Component{
     constructor(){
         super();
@@ -42,11 +55,13 @@ class UserCard extends React.Component{
         .catch(e=>console.log({e}));
     }
     render(){
-        const {avatar_url,name,location,login} = this.state.userData;
+        const {avatar_url,name,location,login,html_url} = this.state.userData;
+        const {classes} = this.props;
         return(
-            <StyledCard>
+            <Card className={classes.card}>
                 <CardActionArea>
-                    <StyledCardMedia 
+                    <CardMedia 
+                        className={classes.cardMedia}
                         component={Link}
                         to={`/${login}`}
                         image={`${avatar_url}`}
@@ -58,16 +73,11 @@ class UserCard extends React.Component{
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button component={Link} to={`/${login}/followers`}  size='small' color='primary'>Followers</Button>
+                    <Button component={Link} to={`/${login}`}  size='small' color='primary'>Followers</Button>
+                    <Button component={Link} to={`/${html_url}`}  size='small' color='primary'>Profile</Button>
                 </CardActions>
-            </StyledCard>
+            </Card>
         );
     }
 };
-export default UserCard;
-const StyledCardMedia = styled(CardMedia)`
-    height: 140px;
-`;
-const StyledCard = styled(Card)`
-    width: 30%;
-`;
+export default withStyles(styles)(UserCard);
