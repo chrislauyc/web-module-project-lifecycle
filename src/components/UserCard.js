@@ -8,11 +8,8 @@ import {
     CardContent,
     CardMedia,
     Button,
-    Typography,
     withStyles,
-    createMuiTheme
 } from '@material-ui/core';
-const theme = createMuiTheme();
 const styles = {
     card:{
         height:'100%',
