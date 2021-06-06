@@ -21,8 +21,6 @@ const styles = {
     followerText:{
         padding:theme.spacing(3),
     },
-    addBorder:{
-    }
 
 };
 class Page extends React.Component{
@@ -60,7 +58,7 @@ class Page extends React.Component{
                     </Grid>
                     <Grid item className={classes.followerCards}>
                         <Typography className={classes.followerText} component='h1' variant='h4' color='primary' align='center' >{'Followers'}</Typography>
-                        <Container  className={classes.addBorder}>
+                        <Container>
                             <UserCards userName={userName} userData={userData} />
                         </Container>
                     </Grid>

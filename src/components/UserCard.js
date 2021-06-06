@@ -71,7 +71,7 @@ class UserCard extends React.Component{
                 </CardActionArea>
                 <CardActions>
                     <Button component={Link} to={`/${login}`}  size='small' color='primary'>Followers</Button>
-                    <Button component={Link} to={`/${html_url}`}  size='small' color='primary'>Profile</Button>
+                    <Button href={html_url}  size='small' color='primary'>Profile</Button>
                 </CardActions>
             </Card>
         );
