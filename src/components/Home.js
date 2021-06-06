@@ -5,7 +5,8 @@ import {
     Grid,
     Button,
     Container,
-    Typography
+    Typography,
+    TextField
 } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 const theme = createMuiTheme();
@@ -15,10 +16,10 @@ const styles={
     },
     heroContent: {
       backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(8, 0, 6),
+      padding: theme.spacing(8, 0, 0),
     },
     heroButtons: {
-      marginTop: theme.spacing(4),
+      marginTop: theme.spacing(0),
     },
 };
 const defaultLink = '/chrislauyc';
@@ -37,7 +38,10 @@ class Home extends React.Component{
                 </Container>
             </div>
             <div className={classes.heroButtons}>
-                <Grid container spacing={2} justify='center'>
+                <Grid container spacing={2} alignItems='center' direction='column'>
+                    <Grid item>
+                        <TextField label={'GitHub User Name'} variant='outlined' />
+                    </Grid>
                     <Grid item>
                         <Button component={Link} to={defaultLink} variant='contained' color='primary'>
                             Get started
