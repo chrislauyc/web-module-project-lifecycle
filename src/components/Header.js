@@ -3,7 +3,6 @@ import {
     AppBar,
     Toolbar,
     Tooltip,
-    Fab,
     IconButton,
     Typography,
     withStyles,
@@ -23,9 +22,6 @@ const styles={
     title:{
         flexGrow:1
     },
-    fab:{
-        color:theme.palette.info.light
-    }
 };
 class Header extends React.Component{
     handleClickHome=()=>{
