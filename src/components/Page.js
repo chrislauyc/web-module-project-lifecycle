@@ -7,22 +7,23 @@ import {
 } from '@material-ui/core';
 const theme = createMuiTheme();
 const styles = {
-    grid:{
-        padding: theme.spacing(2),
-        width:'100%'
-    },
     mainCard:{
         backgroundColor:theme.palette.background.paper,
-        paddingTop:theme.spacing(4),
+        paddingTop:theme.spacing(3),
+        margin:'0 auto',
     },
     followerCards:{
         backgroundColor:theme.palette.background.paper,
         flexGrow:'1',
-        minHeight:'100vh'
+        minHeight:'100vh',
+        margin:'auto'
+    },
+    followerText:{
+        padding:theme.spacing(3),
     },
     addBorder:{
-        border:'red solid 1px'
     }
+
 };
 class Page extends React.Component{
     constructor(){
@@ -51,15 +52,15 @@ class Page extends React.Component{
         const {classes} = this.props;
         return(
             <>
-                <Grid className={classes.grid} container>
+                <Grid container>
                     <Grid item className={classes.mainCard} spacing={4}>
                         <Container>
                             <UserCard userName={userName} setUserData={setUserData}/>
                         </Container>
                     </Grid>
                     <Grid item className={classes.followerCards}>
-                        <Typography component='h1' variant='h4' color='primary' align='center' >{'Followers'}</Typography>
-                        <Container>
+                        <Typography className={classes.followerText} component='h1' variant='h4' color='primary' align='center' >{'Followers'}</Typography>
+                        <Container  className={classes.addBorder}>
                             <UserCards userName={userName} userData={userData} />
                         </Container>
                     </Grid>

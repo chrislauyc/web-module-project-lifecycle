@@ -7,9 +7,12 @@ import {
 const theme = createMuiTheme();
 const styles = {
     cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
+        paddingTop: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
       },
+    gridItem:{
+        margin: 'auto',
+    },
 };
 class UserCards extends React.Component{
     constructor(){
@@ -49,7 +52,7 @@ class UserCards extends React.Component{
                     <Container className={classes.cardGrid} maxWidth='md'>
                         <Grid container spacing={4}>
                             {userList.map((user,i)=>
-                                <Grid key={i} item>
+                                <Grid key={i} className={classes.gridItem} item>
                                     <UserCard userName={user.login} setUserData={null}/>
                                 </Grid>
                                 )}
