@@ -24,8 +24,21 @@ const styles={
 };
 const defaultLink = '/chrislauyc';
 class Home extends React.Component{
+    constructor(){
+        super();
+        this.state={
+            userName:''
+        }
+    }
+    onChange=(e)=>{
+        this.setState({
+            userName:e.target.value
+        });
+    }
     render(){
         const {classes} = this.props;
+        const {userName} = this.state;
+        const {onChange} = this;
         return(<>
             <div className={classes.heroContent}>
                 <Container maxWidth='sm'>
@@ -40,11 +53,11 @@ class Home extends React.Component{
             <div className={classes.heroButtons}>
                 <Grid container spacing={2} alignItems='center' direction='column'>
                     <Grid item>
-                        <TextField label={'GitHub User Name'} variant='outlined' />
+                        <TextField value={userName} onChange={onChange} label={'GitHub User Name'} variant='outlined' />
                     </Grid>
                     <Grid item>
-                        <Button component={Link} to={defaultLink} variant='contained' color='primary'>
-                            Get started
+                        <Button component={Link} to={userName?`/${userName}`:defaultLink} variant='contained' color='primary'>
+                            {userName?'Search':'Get started'}
                         </Button>
                     </Grid>
                 </Grid>
