@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {
@@ -9,8 +8,19 @@ import {
     CardContent,
     CardMedia,
     Button,
-    Typography
+    withStyles,
 } from '@material-ui/core';
+const styles = {
+    card:{
+        height:'100%',
+        display:'flex',
+        flexDirection: 'column'
+    },
+    cardMedia:{
+        // padding is needed to display the image
+        paddingTop:'56.25%' //16:9
+    }
+};
 class UserCard extends React.Component{
     constructor(){
         super();
@@ -18,25 +28,39 @@ class UserCard extends React.Component{
             userData:{},
           };
     }
-    componentDidUpdate(){
-        const {userName,setUserData} = this.props;
-        if(userName){
-            axios.get(`https://api.github.com/users/${userName}`)
-            .then((r)=>{
-              this.setState({userData:r.data});
-              if(setUserData){
-                  setUserData(r.data);
-              }
-            })
-            .catch(e=>console.log({e}));
+    componentDidMount(){
+        const {userName} = this.props;
+        const {userData} = this.state;
+        if(userName && Object.keys(userData).length===0){
+            this.fetchData();
         }
-      }
+    }
+    componentDidUpdate(prevProps,prevState){
+        if(prevProps.userName!==this.props.userName){
+            this.fetchData();
+        }
+    }
+    fetchData=()=>{
+        const {userName,setUserData} = this.props;
+        axios.get(`https://api.github.com/users/${userName}`)
+        .then((r)=>{
+            this.setState({userData:r.data});
+            if(setUserData){
+                setUserData(r.data);
+            }
+        })
+        .catch(e=>console.log({e}));
+    }
     render(){
-        const {avatar_url,name,location,login} = this.state.userData;
+        const {avatar_url,name,location,login,html_url} = this.state.userData;
+        const {classes} = this.props;
         return(
-            <StyledCard>
+            <Card className={classes.card}>
                 <CardActionArea>
-                    <StyledCardMedia 
+                    <CardMedia 
+                        className={classes.cardMedia}
+                        component={Link}
+                        to={`/${login}`}
                         image={`${avatar_url}`}
                         title={'User Avatar'}
                     />
@@ -46,17 +70,11 @@ class UserCard extends React.Component{
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button component={Link} to={`/${login}`} size='small' color='primary'>Following</Button>
                     <Button component={Link} to={`/${login}`}  size='small' color='primary'>Followers</Button>
+                    <Button href={html_url}  size='small' color='primary'>Profile</Button>
                 </CardActions>
-            </StyledCard>
+            </Card>
         );
     }
 };
-export default UserCard;
-const StyledCardMedia = styled(CardMedia)`
-    height: 140px;
-`;
-const StyledCard = styled(Card)`
-    width: 30%;
-`;
+export default withStyles(styles)(UserCard);
